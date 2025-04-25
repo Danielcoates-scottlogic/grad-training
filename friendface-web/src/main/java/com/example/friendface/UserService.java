@@ -20,9 +20,9 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public ResponseEntity<User> addUser(@RequestParam @NotBlank String username) {
+    public ResponseEntity<User> addUser(UserDto dto) {
         User user = new User();
-        user.setUsername(username);
+        user.setUsername(dto.getUsername());
         userRepository.save(user);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }

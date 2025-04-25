@@ -15,10 +15,15 @@ public class UserController {
     }
     @GetMapping
     public List<User> getUsers() {
-        return this.userService.getUsers();
+        List<User> users = this.userService.getUsers();
+        UserDto dto = new UserDto();
+        dto.setUsers(users);
+        return dto.getUsers();
     }
 
     @PostMapping ResponseEntity<User> addUser(@RequestParam @NotBlank String username) {
-        return this.userService.addUser(username);
+        UserDto dto = new UserDto();
+        dto.setUsername(username);
+        return this.userService.addUser(dto);
     }
 }
