@@ -12,12 +12,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.mockito.Mockito.verify;
-import org.springframework.http.MediaType;
 
 
 import java.util.List;
@@ -49,7 +47,7 @@ public class UserControllerTest {
         CreateUserDto user = new CreateUserDto();
         user.setUsername("Dan");
         User returnUser = new User();
-        user.setUsername("Dan");
+        returnUser.setUsername("Dan");
         when(userService.addUser(any(User.class))).thenReturn(returnUser);
 
         ResultActions result = mockMvc.perform(post("/users")
@@ -59,7 +57,18 @@ public class UserControllerTest {
         verify(userService).addUser(any(User.class));
     }
 
+    @Test
+    public void badUser() throws Exception {
+        CreateUserDto dto = new CreateUserDto();
+        dto.setUsername("");
+        when(userService.addUser(any(User.class))).thenReturn(null);
 
+        ResultActions result = mockMvc.perform(post("/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"username\":\"\"}"))
+                .andExpect(status().isBadRequest());
+        verify(userService, never()).addUser(any(User.class));
+    }
 
 
 }

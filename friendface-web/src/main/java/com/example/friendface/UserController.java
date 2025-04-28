@@ -29,12 +29,12 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> addUser(@RequestBody CreateUserDto dto) {
+        if (dto.getUsername() == null || dto.getUsername().isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         User user = new User();
         user.setUsername(dto.getUsername());
         User response = this.userService.addUser(user);
-        if (response == null){
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }
