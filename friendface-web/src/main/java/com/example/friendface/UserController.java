@@ -28,12 +28,12 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody User user) {
-        CreateUserDto dto= new CreateUserDto();
-        dto.setUsername(user.getUsername());
-        User response = this.userService.addUser(dto);
-        if (response.getUsername().isEmpty()){
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<User> addUser(@RequestBody CreateUserDto dto) {
+        User user = new User();
+        user.setUsername(dto.getUsername());
+        User response = this.userService.addUser(user);
+        if (response == null){
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
