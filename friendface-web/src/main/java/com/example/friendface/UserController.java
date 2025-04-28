@@ -28,9 +28,11 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody User user) {
-        CreateUserDto dto = new CreateUserDto();
-        dto.setUsername(user.getUsername());
-        return new ResponseEntity<>(this.userService.addUser(dto), HttpStatus.CREATED);
+    public ResponseEntity<CreateUserDto> addUser(@RequestBody User user) {
+        CreateUserDto response = this.userService.addUser(user);
+        if (response.getUsername().isEmpty()){
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }

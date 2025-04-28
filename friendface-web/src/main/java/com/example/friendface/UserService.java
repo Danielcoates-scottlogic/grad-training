@@ -17,9 +17,12 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User addUser(CreateUserDto dto) {
-        User user = new User();
-        user.setUsername(dto.getUsername());
-        return userRepository.save(user);
+    public CreateUserDto addUser(User user) {
+        if (user.getUsername().isEmpty()){
+            return new CreateUserDto();
+        }
+        CreateUserDto dto = new CreateUserDto();
+        dto.setUsername(user.getUsername());
+        return userRepository.save(dto);
     }
 }

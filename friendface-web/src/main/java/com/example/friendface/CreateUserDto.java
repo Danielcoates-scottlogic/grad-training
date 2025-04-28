@@ -1,10 +1,12 @@
 package com.example.friendface;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 
 public class CreateUserDto {
-    @NotBlank
+    @NotBlank(message = "Username can't be blank")
+    @Size(min=1, max=49)
     private String username;
 
 
