@@ -1,6 +1,7 @@
 package com.example.friendface;
 
 import jakarta.validation.constraints.NotBlank;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,11 +15,11 @@ public class UserController {
         this.userService = userService;
     }
     @GetMapping
-    public List<User> getUsers() {
+    public ResponseEntity<List<User>> getUsers() {
         List<User> users = this.userService.getUsers();
         UserDto dto = new UserDto();
         dto.setUsers(users);
-        return dto.getUsers();
+        return new ResponseEntity<>(dto.getUsers(),HttpStatus.OK);
     }
 
     @PostMapping ResponseEntity<User> addUser(@RequestParam @NotBlank String username) {
