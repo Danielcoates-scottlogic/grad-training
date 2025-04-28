@@ -1,5 +1,6 @@
 package com.example.friendface;
 
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +29,13 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody User user) {
-        CreateUserDto dto = new CreateUserDto();
-        dto.setUsername(user.getUsername());
-        return new ResponseEntity<>(this.userService.addUser(dto), HttpStatus.CREATED);
+    public ResponseEntity<User> addUser(@RequestBody CreateUserDto dto) {
+        if (dto.getUsername() == null || dto.getUsername().isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        User user = new User();
+        user.setUsername(dto.getUsername());
+        User response = this.userService.addUser(user);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }
