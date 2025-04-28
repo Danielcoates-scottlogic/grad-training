@@ -1,11 +1,13 @@
 package com.example.friendface;
 
-import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.System.in;
 
 @RestController
 @RequestMapping("users")
@@ -15,16 +17,20 @@ public class UserController {
         this.userService = userService;
     }
     @GetMapping
-    public ResponseEntity<List<User>> getUsers() {
+    public ResponseEntity<List<String>> getUsers() {
         List<User> users = this.userService.getUsers();
-        UserDto dto = new UserDto();
-        dto.setUsers(users);
-        return new ResponseEntity<>(dto.getUsers(),HttpStatus.OK);
+        ReturnUsersDto dto = new ReturnUsersDto();
+        List<String> usernames = new ArrayList<>();
+        for (User user: users) {
+            usernames.add(user.getUsername());
+        }
+        dto.setUsernames(usernames);
+        return new ResponseEntity<>(dto.getUsernames(),HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody @NotBlank User user) {
-        UserDto dto = new UserDto();
+    public ResponseEntity<User> addUser(@RequestBody User user) {
+        CreateUserDto dto = new CreateUserDto();
         dto.setUsername(user.getUsername());
         return new ResponseEntity<>(this.userService.addUser(dto), HttpStatus.CREATED);
     }
