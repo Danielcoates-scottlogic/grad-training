@@ -22,9 +22,10 @@ public class UserController {
         return new ResponseEntity<>(dto.getUsers(),HttpStatus.OK);
     }
 
-    @PostMapping ResponseEntity<User> addUser(@RequestParam @NotBlank String username) {
+    @PostMapping
+    public ResponseEntity<User> addUser(@RequestBody @NotBlank User user) {
         UserDto dto = new UserDto();
-        dto.setUsername(username);
-        return this.userService.addUser(dto);
+        dto.setUsername(user.getUsername());
+        return new ResponseEntity<>(this.userService.addUser(dto), HttpStatus.CREATED);
     }
 }

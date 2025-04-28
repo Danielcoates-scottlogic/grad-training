@@ -20,10 +20,10 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public ResponseEntity<User> addUser(UserDto dto) {
+    public User addUser(UserDto dto) {
         User user = new User();
         user.setUsername(dto.getUsername());
-        userRepository.save(user);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return userRepository.save(user);
+
     }
 }
