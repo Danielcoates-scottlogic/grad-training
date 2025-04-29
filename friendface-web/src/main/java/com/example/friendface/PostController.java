@@ -27,9 +27,6 @@ public class PostController {
     @PostMapping
     public ResponseEntity<Post> addPost(@RequestBody Post post) {
         Post response = this.postService.addPost(post);
-        if (response.getId() == 0) {
-            new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }

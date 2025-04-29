@@ -1,10 +1,6 @@
 package com.example.friendface;
 
-import jakarta.validation.constraints.NotBlank;
-
-
-public class CreateUserDto {
-    @NotBlank
+public class UserPost {
     private String username;
     private String colour;
 

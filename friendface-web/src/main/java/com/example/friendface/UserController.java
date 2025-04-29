@@ -18,15 +18,18 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<String>> getUsers() {
+    public ResponseEntity<ReturnUsersDto> getUsers() {
         List<User> users = this.userService.getUsers();
+        List<UserPost> dtoUsers = new ArrayList<>();
         ReturnUsersDto dto = new ReturnUsersDto();
-        List<String> usernames = new ArrayList<>();
         for (User user: users) {
-            usernames.add(user.getUsername());
+            UserPost conversion = new UserPost();
+            conversion.setColour(user.getColour());
+            conversion.setUsername(user.getUsername());
+            dtoUsers.add(conversion);
         }
-        dto.setUsernames(usernames);
-        return new ResponseEntity<>(dto.getUsernames(),HttpStatus.OK);
+        dto.setUsers(dtoUsers);
+        return new ResponseEntity<>(dto,HttpStatus.OK);
     }
 
     @PostMapping
@@ -36,6 +39,7 @@ public class UserController {
         }
         User user = new User();
         user.setUsername(dto.getUsername());
+        user.setColour(dto.getColour());
         User response = this.userService.addUser(user);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }

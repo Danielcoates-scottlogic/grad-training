@@ -3,13 +3,17 @@ package com.example.friendface;
 import java.util.List;
 
 public class ReturnUsersDto {
-    private List<String> usernames;
+    private List<UserPost> users;
 
-    public List<String> getUsernames() {
-        return usernames;
+
+
+    public List<UserPost> getUsers() {
+        return users;
     }
 
-    public void setUsernames(List<String> usernames) {
-        this.usernames = usernames;
+    public void setUsers(List<UserPost> users) {
+        this.users = users;
     }
+
+
 }

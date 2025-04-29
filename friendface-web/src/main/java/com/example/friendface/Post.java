@@ -17,7 +17,7 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name = "username", referencedColumnName = "username", nullable = false)
-    private User user;
+    private User author;
 
 
     public Long getId() {
@@ -44,10 +44,10 @@ public class Post {
         this.contents = contents;
     }
     public User getUser() {
-        return user;
+        return author;
     }
 
     public void setUser(User user) {
-        this.user = user;
+        this.author = user;
     }
 }
