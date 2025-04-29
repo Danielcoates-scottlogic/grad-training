@@ -2,6 +2,8 @@ package com.example.friendface;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 @Table(name="posts")
 public class Post {
@@ -15,10 +17,20 @@ public class Post {
     @Column
     private int likes;
 
+    @Column
+    private Date date;
+
     @ManyToOne
     @JoinColumn(name = "username", referencedColumnName = "username", nullable = false)
     private User author;
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public Long getId() {
         return id;
