@@ -1,5 +1,6 @@
 package com.example.friendface;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public class PostService {
     public List<Post> getPosts(){
         return postRepository.findAll();
     }
-    public Post addPost(Post post){
+    public Post addPost(Post post) {
         return postRepository.save(post);
     }
 }
