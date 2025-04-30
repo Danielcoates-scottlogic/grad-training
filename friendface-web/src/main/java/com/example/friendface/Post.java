@@ -15,10 +15,10 @@ public class Post {
     private String contents;
 
     @Column
-    private int likes;
+    private int likes = 0;
 
     @Column
-    private Date date;
+    private Date date = new Date();
 
     @ManyToOne
     @JoinColumn(name = "username", referencedColumnName = "username", nullable = false)

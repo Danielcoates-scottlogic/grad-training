@@ -7,6 +7,15 @@ public class CreateUserDto {
     @NotBlank
     private String username;
     private String colour;
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getColour() {
         return colour;

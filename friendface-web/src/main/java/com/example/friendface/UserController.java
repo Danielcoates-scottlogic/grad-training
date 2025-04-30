@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("users")
 public class UserController {
@@ -20,7 +20,7 @@ public class UserController {
     @GetMapping
     public ResponseEntity<ReturnUsersDto> getUsers() {
         List<User> users = this.userService.getUsers();
-        List<UserPost> dtoUsers = new ArrayList<>();
+        List<UserPost>dtoUsers  = new ArrayList<>();
         ReturnUsersDto dto = new ReturnUsersDto();
         for (User user: users) {
             UserPost conversion = new UserPost();
@@ -31,7 +31,7 @@ public class UserController {
         dto.setUsers(dtoUsers);
         return new ResponseEntity<>(dto,HttpStatus.OK);
     }
-
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping
     public ResponseEntity<User> addUser(@RequestBody CreateUserDto dto) {
         if (dto.getUsername() == null || dto.getUsername().isEmpty()) {
@@ -40,6 +40,7 @@ public class UserController {
         User user = new User();
         user.setUsername(dto.getUsername());
         user.setColour(dto.getColour());
+        user.setPassword(dto.getPassword());
         User response = this.userService.addUser(user);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
