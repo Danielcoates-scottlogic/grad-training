@@ -3,11 +3,15 @@ package com.example.friendface;
 import jakarta.validation.constraints.NotBlank;
 
 
+
 public class CreateUserDto {
+
     @NotBlank
     private String username;
     private String colour;
     private String password;
+
+
 
     public String getPassword() {
         return password;

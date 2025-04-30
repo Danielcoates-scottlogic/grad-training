@@ -3,6 +3,7 @@ package com.example.friendface;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.List;
 @RequestMapping("users")
 public class UserController {
     private final UserService userService;
-    public UserController(UserService userService) {
+    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
     }
 
