@@ -1,5 +1,6 @@
 package com.example.friendface;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -14,6 +15,12 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
+
+    @Value("${app.auth.username}")
+    private String username;
+    @Value("${app.auth.password}")
+    private String password;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(12); // 12 is the cost factor
@@ -21,8 +28,8 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder encoder) {
         UserDetails user = org.springframework.security.core.userdetails.User.builder()
-                .username("swagger")
-                .password(encoder.encode("swagger123"))  // BCrypt-hashed password
+                .username(username)
+                .password(encoder.encode(password))  // BCrypt-hashed password
                 .roles("ADMIN")
                 .build();
         return new InMemoryUserDetailsManager(user);
