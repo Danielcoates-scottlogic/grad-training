@@ -7,7 +7,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.client.ResponseActions;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -45,13 +44,13 @@ public class PostControllerTest {
     public void addPost() throws Exception {
         Post post = new Post();
         post.setId(4L);
-        when(postService.addPost(any(Post.class))).thenReturn(post);
+        when(postService.addPost(any(ReturnPostDto.class))).thenReturn(post);
 
         ResultActions result = mockMvc.perform(post("/posts")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"username\":\"Dan\"}"))
                 .andExpect(status().isCreated());
-        verify(postService).addPost(any(Post.class));
+        verify(postService).addPost(any(ReturnPostDto.class));
     }
 
 }

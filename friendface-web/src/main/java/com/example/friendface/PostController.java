@@ -21,16 +21,20 @@ public class PostController {
         this.postService = postService;
 
     }
-    @CrossOrigin(origins = "http://localhost:4200")
+
     @GetMapping
     public ResponseEntity<List<Post>> getPosts() {
         List<Post> posts = this.postService.getPosts();
         return new ResponseEntity<>(posts,HttpStatus.OK);
     }
-    @CrossOrigin(origins = "http://localhost:4200")
+
     @PostMapping
-    public ResponseEntity<Post> addPost(@RequestBody Post post) {
+    public ResponseEntity<Post> addPost(@RequestBody ReturnPostDto post) {
         Post response = this.postService.addPost(post);
+        if (response.getUser().getUsername().isEmpty() || response.getUser().getUsername() == null){
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+        response.getUser().setPassword("");
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }

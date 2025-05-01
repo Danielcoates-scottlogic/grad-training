@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("users")
 public class UserController {
     private final UserService userService;
-    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
@@ -37,7 +37,7 @@ public class UserController {
         dto.setUsers(dtoUsers);
         return new ResponseEntity<>(dto,HttpStatus.OK);
     }
-    @CrossOrigin(origins = "http://localhost:4200")
+
     @PostMapping
     public ResponseEntity<User> addUser(@RequestBody CreateUserDto dto) {
         if (dto.getUsername() == null || dto.getUsername().isEmpty()) {
@@ -48,6 +48,9 @@ public class UserController {
         user.setColour(dto.getColour());
         user.setPassword(dto.getPassword());
         User response = this.userService.addUser(user);
+        if (response.getUsername().isEmpty() || response.getUsername() == null) {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }

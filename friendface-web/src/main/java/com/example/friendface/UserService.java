@@ -22,7 +22,7 @@ public class UserService {
 
     public User addUser(User user) {
         if (user.getUsername().isEmpty()) {
-            return null;
+            return new User();
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
