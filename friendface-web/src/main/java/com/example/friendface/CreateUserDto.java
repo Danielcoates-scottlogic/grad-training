@@ -1,14 +1,14 @@
 package com.example.friendface;
 
-import jakarta.validation.constraints.NotBlank;
-
+import jakarta.validation.constraints.NotEmpty;
 
 
 public class CreateUserDto {
 
-    @NotBlank
+    @NotEmpty(message = "Username Required")
     private String username;
     private String colour;
+    @NotEmpty(message = "Password required")
     private String password;
 
 

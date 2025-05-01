@@ -1,9 +1,9 @@
 package com.example.friendface;
 
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("users")
 public class UserController {
     private final UserService userService;
-    public UserController(UserService userService) {
+    public UserController(UserService userService, HandleValidationExceptions handleValidationExceptions) {
         this.userService = userService;
     }
 
@@ -39,16 +39,13 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody CreateUserDto dto) {
-        if (dto.getUsername() == null || dto.getUsername().isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<User> addUser(@Valid @RequestBody CreateUserDto dto) {
         User user = new User();
         user.setUsername(dto.getUsername());
         user.setColour(dto.getColour());
         user.setPassword(dto.getPassword());
         User response = this.userService.addUser(user);
-        if (response.getUsername().isEmpty() || response.getUsername() == null) {
+        if (response.getUsername() == null || response.getUsername().isEmpty()) {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(response, HttpStatus.CREATED);

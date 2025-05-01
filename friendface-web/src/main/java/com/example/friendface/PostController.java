@@ -1,6 +1,7 @@
 package com.example.friendface;
 
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,7 +30,7 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<Post> addPost(@RequestBody ReturnPostDto post) {
+    public ResponseEntity<Post> addPost(@Valid @RequestBody ReturnPostDto post) {
         Post response = this.postService.addPost(post);
         if (response.getUser().getUsername().isEmpty() || response.getUser().getUsername() == null){
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
