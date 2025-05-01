@@ -32,7 +32,7 @@ public class PostController {
     @PostMapping
     public ResponseEntity<Post> addPost(@Valid @RequestBody ReturnPostDto post) {
         Post response = this.postService.addPost(post);
-        if (response.getUser().getUsername().isEmpty() || response.getUser().getUsername() == null){
+        if (response.getUser().getUsername() == null || response.getUser().getUsername().isEmpty()){
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
         response.getUser().setPassword("");

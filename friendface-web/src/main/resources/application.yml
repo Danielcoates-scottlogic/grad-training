@@ -8,3 +8,8 @@ spring.jpa:
     show_sql: true
     format_sql: true
     query.substitutions: true
+
+app:
+  auth:
+    username: swagger
+    password: swagger123
