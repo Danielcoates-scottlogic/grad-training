@@ -13,3 +13,7 @@ app:
   auth:
     username: swagger
     password: swagger123
+
+jwt:
+  secret: G8p@Z3#rQ!m2kT&Ld9X^sY*wBvN0aEiFjRuHtM4C$KoLzQdX!Pf
+  expiration-time: 3600000
