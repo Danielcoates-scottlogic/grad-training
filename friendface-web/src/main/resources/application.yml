@@ -15,5 +15,5 @@ app:
     password: swagger123
 
 jwt:
-  secret: G8p@Z3#rQ!m2kT&Ld9X^sY*wBvN0aEiFjRuHtM4C$KoLzQdX!Pf
+  secret: RzhwQFozI3JRIW0ya1QmTGQ5WF5zWSp3QnZOMGFFaUZqUnVIdE00QyRLb0x6UWRYIVBm
   expiration-time: 3600000
