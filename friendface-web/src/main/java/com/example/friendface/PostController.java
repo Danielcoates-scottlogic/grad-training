@@ -35,7 +35,6 @@ public class PostController {
         if (response.getUser().getUsername() == null || response.getUser().getUsername().isEmpty()){
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
-        response.getUser().setPassword("");
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }
