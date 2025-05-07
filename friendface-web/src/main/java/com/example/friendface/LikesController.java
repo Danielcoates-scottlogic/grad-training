@@ -18,4 +18,9 @@ public class LikesController {
         return likesService.updateLike(info);
     }
 
+    @GetMapping
+    public int countLikes(@RequestParam int postId) {
+        return likesService.countLikes(postId);
+    }
+
 }

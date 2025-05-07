@@ -30,4 +30,8 @@ public class LikesService {
             return true;
         }
     }
+
+    public int countLikes(int postId) {
+        return likesRepository.findByPostId(postId).size();
+    }
 }
