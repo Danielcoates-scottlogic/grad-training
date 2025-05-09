@@ -30,4 +30,7 @@ public class PostService {
         post.setUser(author);
         return postRepository.save(post);
     }
+    public int countLikes(Long postId) {
+        return postRepository.findLikesById(postId);
+    }
 }

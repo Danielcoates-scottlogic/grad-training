@@ -14,17 +14,17 @@ import lombok.Setter;
 @Table(name="likes")
 @Getter
 @Setter
-public class Like {
+public class Likes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private int id;
+    private Integer id;
 
     @Column
     @NotEmpty
     private String username;
 
     @Column(name="`post_id`")
-    private int postId;
+    private Long postId;
 }

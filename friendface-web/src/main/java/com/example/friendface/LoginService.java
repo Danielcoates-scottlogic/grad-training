@@ -2,6 +2,8 @@ package com.example.friendface;
 
 import org.springframework.stereotype.Service;
 
+
+
 @Service
 public class LoginService {
     private final UserRepository userRepository;
@@ -11,7 +13,7 @@ public class LoginService {
     }
 
     public User findByUsername(String username) {
-        return userRepository.findById(username).orElse(null);
+        return userRepository.findById(username).orElse(new User());
     }
 
 }

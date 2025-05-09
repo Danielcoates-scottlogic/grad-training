@@ -10,14 +10,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("login")
 public class AuthController {
 
-    @Autowired
-    private LoginService loginService;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
+    private final LoginService loginService;
 
     @Autowired
-    private JwtUtil jwtUtil;
+    public AuthController(PasswordEncoder passwordEncoder, JwtUtil jwtUtil, LoginService loginService){
+        this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
+        this.loginService = loginService;
+    }
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
 
     @PostMapping
     public ResponseEntity<?> login(@RequestBody AuthRequest request) {

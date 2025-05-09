@@ -1,39 +1,23 @@
 package com.example.friendface;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 
+@Builder
+@Setter
+@Getter
 public class CreateUserDto {
 
-    @NotEmpty(message = "Username Required")
+    @NotBlank(message = "Username Required")
+    @Size(min = 3, max = 99)
     private String username;
-    private String colour;
-    @NotEmpty(message = "Password required")
+    @Builder.Default
+    private String colour = "#000000";
+    @NotBlank(message = "Password required")
+    @Size(min = 3, max = 99)
     private String password;
-
-
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getColour() {
-        return colour;
-    }
-
-    public void setColour(String colour) {
-        this.colour = colour;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 }

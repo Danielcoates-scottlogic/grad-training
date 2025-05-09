@@ -6,24 +6,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class LikesService {
     private final LikesRepository likesRepository;
+    private final UserRepository userRepository;
 
-    public LikesService(LikesRepository likesRepository, UserRepository userRepository, PostRepository postRepository) {
+    public LikesService(LikesRepository likesRepository, UserRepository userRepository) {
         this.likesRepository = likesRepository;
+        this.userRepository = userRepository;
     }
 
-
-    public boolean checkIfLiked(String username, int postId) {
-        Like result = likesRepository.findByUsernameAndPostId(username, postId);
-        return result != null;
-    }
 
     public boolean updateLike(LikeDto info) {
-        Like existingLike = likesRepository.findByUsernameAndPostId(info.getUsername(), info.getPostId());
+        Likes existingLike = likesRepository.findByUsernameAndPostId(info.getUsername(), info.getPostId());
         if (existingLike != null) {
             likesRepository.delete(existingLike);
             return false;
         } else {
-            Like newLike = new Like();
+            Likes newLike = new Likes();
             newLike.setUsername(info.getUsername());
             newLike.setPostId(info.getPostId());
             likesRepository.save(newLike);
@@ -31,7 +28,10 @@ public class LikesService {
         }
     }
 
-    public int countLikes(int postId) {
-        return likesRepository.findByPostId(postId).size();
+
+
+    public boolean hasUserLiked(LikeDto info) {
+        Likes existingLike = likesRepository.findByUsernameAndPostId(info.getUsername(), info.getPostId());
+        return !(existingLike == null);
     }
 }

@@ -4,10 +4,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface LikesRepository  extends JpaRepository<Like, String>{
-    Like findByUsernameAndPostId(String username, int postId);
+public interface LikesRepository  extends JpaRepository<Likes, String>{
+    Likes findByUsernameAndPostId(String username, Long postId);
 
-    List<Like> findByPostId(int postId);
+    List<Likes> findByPostId(Long postId);
 }
 
 
