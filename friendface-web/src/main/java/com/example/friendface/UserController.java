@@ -42,6 +42,10 @@ public class UserController {
     public ResponseEntity<User> addUser(@Valid @RequestBody CreateUserDto dto) {
         User user = new User();
         user.setUsername(dto.getUsername());
+        boolean userExists = userService.doesUserExist(user.getUsername());
+        if (userExists) {
+            return new ResponseEntity<>(new User(), HttpStatus.CONFLICT);
+        }
         user.setColour(dto.getColour());
         user.setPassword(dto.getPassword());
         User response = this.userService.addUser(user);

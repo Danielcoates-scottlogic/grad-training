@@ -28,5 +28,8 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public boolean doesUserExist(String username) {
+        return userRepository.checkUserExists(username);
+    }
 
 }
