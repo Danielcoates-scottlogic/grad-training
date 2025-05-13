@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -19,7 +20,7 @@ import java.util.List;
 @RequestMapping("users")
 public class UserController {
     private final UserService userService;
-    public UserController(UserService userService, HandleValidationExceptions handleValidationExceptions) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
@@ -48,6 +49,11 @@ public class UserController {
         }
         user.setColour(dto.getColour());
         user.setPassword(dto.getPassword());
+        if (dto.getProfileImg() != null && !dto.getProfileImg().isEmpty()) {
+            String cleanedString = dto.getProfileImg().split(",")[1];
+            byte[] img = Base64.getDecoder().decode(cleanedString);
+            user.setPfp(img);
+        }
         User response = this.userService.addUser(user);
         if (response.getUsername() == null || response.getUsername().isEmpty()) {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);

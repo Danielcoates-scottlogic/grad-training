@@ -6,11 +6,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class LikesService {
     private final LikesRepository likesRepository;
-    private final UserRepository userRepository;
 
-    public LikesService(LikesRepository likesRepository, UserRepository userRepository) {
+    public LikesService(LikesRepository likesRepository) {
         this.likesRepository = likesRepository;
-        this.userRepository = userRepository;
     }
 
 

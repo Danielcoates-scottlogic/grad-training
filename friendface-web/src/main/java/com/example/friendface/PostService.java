@@ -20,7 +20,7 @@ public class PostService {
     }
 
     public Post addPost(ReturnPostDto dto) {
-        if (dto.getAuthor().isEmpty() || dto.getContent().isEmpty() || dto.getAuthor() == null || dto.getContent() == null) {
+        if (dto.getAuthor() == null || dto.getContent() == null || dto.getAuthor().isEmpty() || dto.getContent().isEmpty()) {
             return new Post();
         }
         Post post = new Post();

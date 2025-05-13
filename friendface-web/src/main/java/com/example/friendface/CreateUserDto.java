@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Blob;
+
 
 @Builder
 @Setter
@@ -20,4 +22,5 @@ public class CreateUserDto {
     @NotBlank(message = "Password required")
     @Size(min = 3, max = 99)
     private String password;
+    private String profileImg;
 }

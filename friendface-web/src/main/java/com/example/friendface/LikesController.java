@@ -2,7 +2,16 @@ package com.example.friendface;
 
 
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -14,17 +23,19 @@ public class LikesController {
         this.likesService = likesService;
         this.postService = postService;
     }
-    @PutMapping()
-    public boolean updateLike(@Valid @RequestBody LikeDto info) {
-        return likesService.updateLike(info);
+    @PutMapping
+    public ResponseEntity<?> updateLike(@Valid @RequestBody LikeDto info) {
+        return new ResponseEntity<>(likesService.updateLike(info), HttpStatus.OK);
     }
 
-    @PostMapping()
-    public boolean checkLike(@Valid @RequestBody LikeDto info){ return likesService.hasUserLiked(info);}
+    @PostMapping
+    public ResponseEntity<Boolean> checkLike(@Valid @RequestBody LikeDto info){
+        return new ResponseEntity<>(likesService.hasUserLiked(info), HttpStatus.OK);
+    }
 
     @GetMapping
-    public int countLikes(@RequestParam Long postId) {
-        return postService.countLikes(postId);
+    public ResponseEntity<Integer> countLikes(@RequestParam Long postId) {
+        return new ResponseEntity<>(postService.countLikes(postId), HttpStatus.OK);
     }
 
 }
