@@ -34,6 +34,10 @@ public class UserControllerTest {
 
     @Autowired
     MockMvc mockMvc;
+    @MockBean
+    private JwtUtil jwtUtil;
+    @MockBean
+    private LoginService loginService;
 
     @Test
     @WithMockUser
@@ -54,6 +58,7 @@ public class UserControllerTest {
     public void addUser() throws Exception {
         CreateUserDto user = new CreateUserDto();
         user.setUsername("Dan");
+        user.setPassword("Dan");
         User returnUser = new User();
         returnUser.setUsername("Dan");
         when(userService.addUser(any(User.class))).thenReturn(returnUser);

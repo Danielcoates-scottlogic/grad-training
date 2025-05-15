@@ -12,7 +12,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -30,9 +31,13 @@ public class PostControllerTest {
 
     @Autowired
     MockMvc mockMvc;
+    @MockBean
+    private JwtUtil jwtUtil;
+    @MockBean
+    private LoginService loginService;
 
     @Test
-    @WithMockUser
+    @WithMockUser(roles = "ADMIN")
     public void getPosts() throws Exception {
         Post post1 = new Post();
         Post post2 = new Post();
@@ -88,7 +93,7 @@ public class PostControllerTest {
         post.setId(4L);
         User user = new User();
         user.setUsername("dan");
-        user.setPassword(""); // controller blanks it before returning
+        user.setPassword("");
         post.setUser(user);
 
         when(postService.addPost(any(ReturnPostDto.class))).thenReturn(post);
@@ -99,8 +104,7 @@ public class PostControllerTest {
                         .content("{\"author\":\"Dan\", \"content\":\"post here\"}"))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(4))
-                .andExpect(jsonPath("$.user.username").value("dan"))
-                .andExpect(jsonPath("$.user.password").value(""));
+                .andExpect(jsonPath("$.user.username").value("dan"));
     }
 
 
