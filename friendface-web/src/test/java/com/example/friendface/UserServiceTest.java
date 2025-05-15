@@ -62,9 +62,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void doesUserExist_shouldReturnTrue_whenUserExists() {
         String username = "Dan";
-
         when(userRepository.checkUserExists(username)).thenReturn(true);
 
         boolean exists = userService.doesUserExist(username);
@@ -72,7 +70,5 @@ public class UserServiceTest {
         assertTrue(exists);
         verify(userRepository).checkUserExists(username);
     }
-
-
 
 }
