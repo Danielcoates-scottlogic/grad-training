@@ -10,7 +10,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -62,12 +64,26 @@ public class UserServiceTest {
     }
 
     @Test
+    void doesUserExist_shouldReturnTrue_whenUserExists() {
         String username = "Dan";
+
         when(userRepository.checkUserExists(username)).thenReturn(true);
 
         boolean exists = userService.doesUserExist(username);
 
         assertTrue(exists);
+        verify(userRepository).checkUserExists(username);
+    }
+
+    @Test
+    void doesUserExist_shouldReturnFalse_whenUserDoesntExist() {
+        String username = "I dont exist";
+
+        when(userRepository.checkUserExists(username)).thenReturn(false);
+
+        boolean exists = userService.doesUserExist(username);
+
+        assertFalse(exists);
         verify(userRepository).checkUserExists(username);
     }
 

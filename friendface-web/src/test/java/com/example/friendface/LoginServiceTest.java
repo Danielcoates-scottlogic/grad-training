@@ -9,6 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -39,7 +40,7 @@ public class LoginServiceTest {
         when(userRepository.findById(username)).thenReturn(Optional.empty());
         User result = loginService.findByUsername(username);
 
-        assertEquals(null, result.getUsername());
+        assertNull(result.getUsername());
     }
 
 }
