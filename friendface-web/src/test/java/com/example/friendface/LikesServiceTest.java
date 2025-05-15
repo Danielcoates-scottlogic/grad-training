@@ -47,4 +47,33 @@ public class LikesServiceTest {
 
         assertEquals(false, result);
     }
+
+    @Test
+    void updateLikes_WhenUserHasLiked() {
+        LikeDto dto = new LikeDto();
+        dto.setUsername("Dan");
+        dto.setPostId(22L);
+
+        Likes like = new Likes();
+        like.setUsername("Dan");
+        like.setPostId(22L);
+        like.setId(1);
+
+        when(likesRepository.findByUsernameAndPostId(dto.getUsername(), dto.getPostId())).thenReturn(like);
+        boolean result = likesService.updateLike(dto);
+        assertEquals(false, result);
+
+    }
+
+    @Test
+    void updateLikes_WhenUserHasntLiked() {
+        LikeDto dto = new LikeDto();
+        dto.setUsername("Dan");
+        dto.setPostId(22L);
+
+        when(likesRepository.findByUsernameAndPostId(dto.getUsername(), dto.getPostId())).thenReturn(null);
+        boolean result = likesService.updateLike(dto);
+        assertEquals(true, result);
+
+    }
 }
