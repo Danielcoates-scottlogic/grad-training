@@ -1,18 +1,18 @@
 package com.example.friendface;
 
-import jakarta.validation.constraints.NotBlank;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 import java.util.List;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    public UserService(UserRepository userRepository) {
+    private final PasswordEncoder passwordEncoder;
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -20,10 +20,16 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public ResponseEntity<User> addUser(@RequestParam @NotBlank String username) {
-        User user = new User();
-        user.setUsername(username);
-        userRepository.save(user);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    public User addUser(User user) {
+        if (user.getUsername().isEmpty()) {
+            return new User();
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
     }
+
+    public boolean doesUserExist(String username) {
+        return userRepository.checkUserExists(username);
+    }
+
 }

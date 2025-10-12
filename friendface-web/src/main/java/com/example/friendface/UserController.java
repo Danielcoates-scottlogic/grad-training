@@ -1,11 +1,21 @@
 package com.example.friendface;
 
-import jakarta.validation.constraints.NotBlank;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("users")
 public class UserController {
@@ -13,12 +23,41 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
     @GetMapping
-    public List<User> getUsers() {
-        return this.userService.getUsers();
+    public ResponseEntity<ReturnUsersDto> getUsers() {
+        List<User> users = this.userService.getUsers();
+        List<UserPost>dtoUsers  = new ArrayList<>();
+        ReturnUsersDto dto = new ReturnUsersDto();
+        for (User user: users) {
+            UserPost conversion = new UserPost();
+            conversion.setColour(user.getColour());
+            conversion.setUsername(user.getUsername());
+            dtoUsers.add(conversion);
+        }
+        dto.setUsers(dtoUsers);
+        return new ResponseEntity<>(dto,HttpStatus.OK);
     }
 
-    @PostMapping ResponseEntity<User> addUser(@RequestParam @NotBlank String username) {
-        return this.userService.addUser(username);
+    @PostMapping
+    public ResponseEntity<User> addUser(@Valid @RequestBody CreateUserDto dto) {
+        User user = new User();
+        user.setUsername(dto.getUsername());
+        boolean userExists = userService.doesUserExist(user.getUsername());
+        if (userExists) {
+            return new ResponseEntity<>(new User(), HttpStatus.CONFLICT);
+        }
+        user.setColour(dto.getColour());
+        user.setPassword(dto.getPassword());
+        if (dto.getProfileImg() != null && !dto.getProfileImg().isEmpty()) {
+            String cleanedString = dto.getProfileImg().split(",")[1];
+            byte[] img = Base64.getDecoder().decode(cleanedString);
+            user.setPfp(img);
+        }
+        User response = this.userService.addUser(user);
+        if (response.getUsername() == null || response.getUsername().isEmpty()) {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }
